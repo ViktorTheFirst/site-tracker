@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import './App.css';
 
-const App = () => {
+const AuthLayout = () => {
   return (
     <div className='min-h-screen bg-background'>
       <Outlet />
@@ -9,4 +8,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default AuthLayout;
