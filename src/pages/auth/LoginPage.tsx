@@ -8,12 +8,19 @@ import { Label } from '@/components/ui/label';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    setError('');
+    if (!email || !password) {
+      setError('Please enter email and password.');
+      return;
+    }
+  };
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-background px-4'>
-      <Card className='w-full max-w-sm'>
+      <Card className='w-full max-w-sm '>
         <CardHeader>
           <CardTitle className='text-2xl text-center'>Login</CardTitle>
         </CardHeader>
