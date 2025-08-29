@@ -4,17 +4,24 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { loginAPI } from '@/api/auth';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setError('');
     if (!email || !password) {
       setError('Please enter email and password.');
       return;
+    }
+
+    try {
+      const res = await loginAPI({ email, password });
+    } catch (err: any) {
+      console.warn('Error in handle login', err);
     }
   };
 
