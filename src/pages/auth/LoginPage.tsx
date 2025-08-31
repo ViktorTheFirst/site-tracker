@@ -1,15 +1,22 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { loginAPI } from '@/api/auth';
+import useUserStore from '@/store/userSlice';
+import { Status } from '@/interfaces/general';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const setGlobalUser = useUserStore((state) => state.setUser);
 
   const handleLogin = async () => {
     setError('');
@@ -20,6 +27,11 @@ const LoginPage = () => {
 
     try {
       const res = await loginAPI({ email, password });
+
+      if (res.status === Status.SUCCESS) {
+        setGlobalUser(res.user);
+        navigate('/app/home');
+      }
     } catch (err: any) {
       console.warn('Error in handle login', err);
     }

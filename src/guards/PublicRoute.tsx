@@ -1,10 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-const PublicRoute = () => {
-  const userInfo = null;
+import useUserStore from '@/store/userSlice';
 
-  if (!userInfo) return <Outlet />;
-  return <Navigate to='/app/dashboard' replace />;
+const PublicRoute = () => {
+  const user = useUserStore((state) => state.user);
+
+  if (!user) return <Outlet />;
+  return <Navigate to='/app/home' replace />;
 };
 
 export default PublicRoute;

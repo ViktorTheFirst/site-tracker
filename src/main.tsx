@@ -13,17 +13,27 @@ import AuthLayout from './layouts/AuthLayout';
 import PublicRoute from './guards/PublicRoute';
 import LoginPage from './pages/auth/LoginPage';
 import NotFoundPage from './pages/app/NotFoundPage';
+import HomePage from './pages/app/Home';
+import AppLayout from './layouts/AppLayout';
+import PrivateRoute from './guards/PrivateRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
-      {/* Redericer root to login */}
-      <Route path='/' element={<Navigate to='/auth/login' replace />} />
+      {/* Redirect root to login */}
+      <Route index element={<Navigate to='/auth/login' replace />} />
 
       {/* Public routes */}
       <Route element={<AuthLayout />}>
         <Route element={<PublicRoute />}>
           <Route path='/auth/login' element={<LoginPage />} />
+        </Route>
+      </Route>
+
+      {/* PROTECTED ROUTES (with sidebar) */}
+      <Route element={<PrivateRoute />}>
+        <Route element={<AppLayout />}>
+          <Route path='/app/home' element={<HomePage />} />
         </Route>
       </Route>
 
