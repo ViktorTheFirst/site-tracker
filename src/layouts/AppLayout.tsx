@@ -6,7 +6,7 @@ import Navbar from '@/components/functional/Navbar';
 
 const AppLayout = () => {
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider defaultOpen={false}>
       <div className='flex min-h-screen bg-background w-full'>
         <Sidebar />
         <main className='w-full'>

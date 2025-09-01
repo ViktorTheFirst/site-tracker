@@ -13,4 +13,11 @@ const Status = {
 
 type Status = (typeof Status)[keyof typeof Status];
 
-export { Environment, Status };
+const SiteStatus = {
+  ACTIVE: 'active',
+  INACTIVE: 'inactive',
+} as const;
+
+type SiteStatus = (typeof SiteStatus)[keyof typeof SiteStatus];
+
+export { Environment, Status, SiteStatus };

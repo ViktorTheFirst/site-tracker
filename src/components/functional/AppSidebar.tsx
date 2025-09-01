@@ -18,8 +18,13 @@ import {
 } from '../ui/sidebar';
 
 const AppSidebar = () => {
+  const clearUser = useUserStore((state) => state.clearUser);
   const user = useUserStore((state) => state.user);
-  const handleLogout = () => {};
+
+  const handleLogout = () => {
+    console.log('clearing user');
+    clearUser();
+  };
 
   return (
     <Sidebar collapsible='icon'>

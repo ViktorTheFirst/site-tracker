@@ -21,6 +21,7 @@ const useUserStore = create<UserState>()(
     }),
     {
       name: 'user',
+      // saves user to localstorage and fetches it
       storage: createJSONStorage(() => localStorage),
       /* onRehydrateStorage: (state) => {
         console.log('Zustand: Starting to rehydrate', state);
