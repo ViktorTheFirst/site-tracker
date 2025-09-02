@@ -30,9 +30,7 @@ export const columns: ColumnDef<SiteRecord>[] = [
   },
   {
     id: 'Hosting',
-    header: () => (
-      <span className='bg-blue-100 text-blue-800 p-2 rounded'>Hosting</span>
-    ),
+    header: 'Hosting',
     columns: [
       {
         accessorKey: 'hostingLogin',
