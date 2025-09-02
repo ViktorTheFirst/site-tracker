@@ -6,8 +6,7 @@ import { DataTable } from '@/components/functional/Table/data-table';
 
 const mockData: SiteRecord[] = [
   {
-    name: 'Banana Shop',
-    address: 'https://banana.net',
+    name: 'banana.net/',
     hostingLogin: 'banana_admin',
     hostingPassword: 'Banana123!',
     hostingValiduntil: '2025-12-31',
@@ -19,8 +18,7 @@ const mockData: SiteRecord[] = [
     lastModifiedBy: 'Alice',
   },
   {
-    name: 'Cinema World',
-    address: 'https://cinemaworld.com',
+    name: 'https://cinemaworld.com',
     hostingLogin: 'cinema_admin',
     hostingPassword: 'C1nema!234',
     hostingValiduntil: '2025-09-10',
@@ -32,8 +30,7 @@ const mockData: SiteRecord[] = [
     lastModifiedBy: 'Bob',
   },
   {
-    name: 'Travel Blog',
-    address: 'https://travelstory.net',
+    name: 'https://travelstory.net',
     hostingLogin: 'travel_admin',
     hostingPassword: 'Tr@vel2025',
     hostingValiduntil: '2025-07-01',
@@ -45,8 +42,7 @@ const mockData: SiteRecord[] = [
     lastModifiedBy: 'Charlie',
   },
   {
-    name: 'TechHub',
-    address: 'https://techhub.io',
+    name: 'techhub.io',
     hostingLogin: 'techhub_root',
     hostingPassword: 'Tech#Hub456',
     hostingValiduntil: '2026-01-20',
@@ -58,8 +54,7 @@ const mockData: SiteRecord[] = [
     lastModifiedBy: 'Dana',
   },
   {
-    name: 'Foodies Paradise',
-    address: 'https://foodiesparadise.com',
+    name: 'http://foodiesparadise.com',
     hostingLogin: 'foodies_admin',
     hostingPassword: 'F00d!2025',
     hostingValiduntil: '2025-10-05',
@@ -71,8 +66,7 @@ const mockData: SiteRecord[] = [
     lastModifiedBy: 'Ethan',
   },
   {
-    name: 'Book Haven',
-    address: 'https://bookhaven.org',
+    name: 'https://bookhaven.org/',
     hostingLogin: 'book_admin',
     hostingPassword: 'B00k$Pass',
     hostingValiduntil: '2025-08-12',
@@ -84,8 +78,7 @@ const mockData: SiteRecord[] = [
     lastModifiedBy: 'Alice',
   },
   {
-    name: 'Fitness Pro',
-    address: 'https://fitnesspro.net',
+    name: 'https://fitnesspro.net',
     hostingLogin: 'fit_admin',
     hostingPassword: 'Fit!Pass123',
     hostingValiduntil: '2025-11-01',
@@ -97,8 +90,7 @@ const mockData: SiteRecord[] = [
     lastModifiedBy: 'Bob',
   },
   {
-    name: 'Music Hub',
-    address: 'https://musichub.com',
+    name: 'https://musichub.com',
     hostingLogin: 'music_admin',
     hostingPassword: 'Mus1c@123',
     hostingValiduntil: '2026-01-01',
@@ -110,8 +102,7 @@ const mockData: SiteRecord[] = [
     lastModifiedBy: 'Charlie',
   },
   {
-    name: 'Art Gallery',
-    address: 'https://artgallery.net',
+    name: 'http://artgallery.net/',
     hostingLogin: 'art_admin',
     hostingPassword: 'Art!Gal22',
     hostingValiduntil: '2025-09-15',
@@ -123,8 +114,7 @@ const mockData: SiteRecord[] = [
     lastModifiedBy: 'Dana',
   },
   {
-    name: 'Green Energy',
-    address: 'https://greenenergy.org',
+    name: 'https://greenenergy.org/',
     hostingLogin: 'green_admin',
     hostingPassword: 'Gr33n!Energy',
     hostingValiduntil: '2026-02-10',

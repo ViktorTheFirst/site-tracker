@@ -5,7 +5,7 @@ const Navbar = () => {
     <nav className='flex p-4 items-center justify-between sticky top-0 bg-background z-10'>
       {/* LEFT */}
       <div className='flex items-center gap-3'>
-        <SidebarTrigger />
+        <SidebarTrigger className='cursor-pointer' />
       </div>
     </nav>
   );
