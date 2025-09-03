@@ -1,14 +1,8 @@
-import {
-  CircleAlert,
-  CircleCheck,
-  MoreHorizontal,
-  ArrowUpDown,
-} from 'lucide-react';
+import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { type ColumnDef } from '@tanstack/react-table';
 
 import type { SiteStatus as SiteStatusType } from '@/interfaces/general';
-import { SiteStatus } from '@/interfaces/general';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -24,15 +18,18 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { getLinkAddress, getSlimName } from '@/utils/helpers';
+import PasswordCell from './PasswordCell';
+import StatusCell from './StatusCell';
 
 export interface SiteRecord {
   id?: string;
   name: string;
-
+  hostingProvider: string;
   hostingLogin: string;
   hostingPassword: string;
   hostingValiduntil: string;
 
+  domainRegistrar: string;
   domainLogin: string;
   domainPassword: string;
   domainValiduntil: string;
@@ -47,8 +44,6 @@ export const columns: ColumnDef<SiteRecord>[] = [
     accessorKey: 'name',
     header: 'Name',
     cell: ({ row }) => {
-      console.log('TO', getLinkAddress(row.original.name));
-      console.log('ORIGINAL', row.original.name);
       return (
         <Link
           to={getLinkAddress(row.original.name)}
@@ -67,11 +62,12 @@ export const columns: ColumnDef<SiteRecord>[] = [
     columns: [
       {
         accessorKey: 'hostingLogin',
-        header: 'login',
+        header: 'Login',
       },
       {
         accessorKey: 'hostingPassword',
-        header: 'password',
+        header: 'Password',
+        cell: ({ getValue }) => <PasswordCell value={getValue<string>()} />,
       },
       {
         accessorKey: 'hostingValiduntil',
@@ -97,11 +93,12 @@ export const columns: ColumnDef<SiteRecord>[] = [
     columns: [
       {
         accessorKey: 'domainLogin',
-        header: 'login',
+        header: 'Login',
       },
       {
         accessorKey: 'domainPassword',
-        header: 'password',
+        header: 'Password',
+        cell: ({ getValue }) => <PasswordCell value={getValue<string>()} />,
       },
       {
         accessorKey: 'domainValiduntil',
@@ -144,12 +141,7 @@ export const columns: ColumnDef<SiteRecord>[] = [
   },
   {
     accessorKey: 'status',
-    cell: ({ row }) => {
-      if (row.original.status === SiteStatus.ACTIVE) {
-        return <CircleCheck className='bg-green-50 text-green-900' />;
-      }
-      return <CircleAlert className='bg-red-50 text-red-900' />;
-    },
+    cell: ({ row }) => <StatusCell status={row.original.status} />,
     header: ({ column }) => {
       return (
         <Button
@@ -180,6 +172,24 @@ export const columns: ColumnDef<SiteRecord>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem asChild>
+              <a
+                href={getLinkAddress(row.original.domainRegistrar)}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                Visit domain
+              </a>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <a
+                href={getLinkAddress(row.original.hostingProvider)}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                Visit hosting
+              </a>
+            </DropdownMenuItem>
             <DropdownMenuItem>Edit site</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className='text-red-500'>

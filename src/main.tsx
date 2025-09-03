@@ -16,6 +16,7 @@ import NotFoundPage from './pages/app/NotFoundPage';
 import HomePage from './pages/app/Home';
 import AppLayout from './layouts/AppLayout';
 import PrivateRoute from './guards/PrivateRoute';
+import AddSitePage from './pages/app/AddSite';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
       <Route element={<PrivateRoute />}>
         <Route element={<AppLayout />}>
           <Route path='/app/home' element={<HomePage />} />
+          <Route path='/app/add-site' element={<AddSitePage />} />
         </Route>
       </Route>
 

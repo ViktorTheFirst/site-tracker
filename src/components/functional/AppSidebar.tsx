@@ -34,6 +34,12 @@ const AppSidebar = () => {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <div className='flex items-center gap-2 px-4 bg-muted'>
+                <img
+                  src='/logo.svg'
+                  alt='site tracker logo'
+                  width={62}
+                  height={62}
+                />
                 <span className='text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-blue-400 to-purple-400'>
                   Site tracker
                 </span>
