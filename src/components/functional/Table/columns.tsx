@@ -2,7 +2,6 @@ import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { type ColumnDef } from '@tanstack/react-table';
 
-import type { SiteStatus as SiteStatusType } from '@/interfaces/general';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -20,26 +19,9 @@ import {
 import { getLinkAddress, getSlimName } from '@/utils/helpers';
 import PasswordCell from './PasswordCell';
 import StatusCell from './StatusCell';
+import type { ISiteRecord } from '@/interfaces/site';
 
-export interface SiteRecord {
-  id?: string;
-  name: string;
-  hostingProvider: string;
-  hostingLogin: string;
-  hostingPassword: string;
-  hostingValiduntil: string;
-
-  domainRegistrar: string;
-  domainLogin: string;
-  domainPassword: string;
-  domainValiduntil: string;
-
-  comments: string;
-  status: SiteStatusType;
-  lastModifiedBy: string;
-}
-
-export const columns: ColumnDef<SiteRecord>[] = [
+export const columns: ColumnDef<ISiteRecord>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
@@ -78,7 +60,7 @@ export const columns: ColumnDef<SiteRecord>[] = [
               onClick={() =>
                 column.toggleSorting(column.getIsSorted() === 'asc')
               }
-              className='cursor-pointer hover:bg-transparent hover:text-inherit'
+              className='hover:bg-transparent hover:text-inherit'
             >
               Valid until
               <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -109,7 +91,7 @@ export const columns: ColumnDef<SiteRecord>[] = [
               onClick={() =>
                 column.toggleSorting(column.getIsSorted() === 'asc')
               }
-              className='cursor-pointer hover:bg-transparent hover:text-inherit'
+              className='hover:bg-transparent hover:text-inherit'
             >
               Valid until
               <ArrowUpDown className='ml-2 h-4 w-4' />
@@ -147,7 +129,6 @@ export const columns: ColumnDef<SiteRecord>[] = [
         <Button
           variant='ghost'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className='cursor-pointer'
         >
           Status
           <ArrowUpDown className='ml-2 h-4 w-4' />

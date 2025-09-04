@@ -1,18 +1,19 @@
 import axios, { AxiosError } from 'axios';
 
-import type { ILoginResponse, IUser } from '@/interfaces/user';
+import type { ILoginResponse } from '@/interfaces/user';
 import { getBaseUrl } from '@/utils/helpers';
+import type { IAddSiteRequest } from '@/interfaces/site';
 
 const baseUrl = getBaseUrl();
 
-const loginAPI = async (
-  userData: Pick<IUser, 'email' | 'password'>
+const addSiteAPI = async (
+  siteData: IAddSiteRequest
 ): Promise<ILoginResponse> => {
   try {
     const result = await axios({
       method: 'post',
-      url: `${baseUrl}/api/v1/auth/login`,
-      data: userData,
+      url: `${baseUrl}/api/v1/site`,
+      data: siteData,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -21,9 +22,9 @@ const loginAPI = async (
 
     return result.data;
   } catch (err: any) {
-    console.warn('User login failed on FE ' + err);
+    console.warn('Adding site failed on FE ' + err);
     throw err as AxiosError;
   }
 };
 
-export { loginAPI };
+export { addSiteAPI };

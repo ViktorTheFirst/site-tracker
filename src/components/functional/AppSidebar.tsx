@@ -37,8 +37,8 @@ const AppSidebar = () => {
                 <img
                   src='/logo.svg'
                   alt='site tracker logo'
-                  width={62}
-                  height={62}
+                  width={32}
+                  height={32}
                 />
                 <span className='text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-blue-400 to-purple-400'>
                   Site tracker

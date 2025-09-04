@@ -1,15 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-import { Plus } from 'lucide-react';
-
-import {
-  columns,
-  type SiteRecord,
-} from '@/components/functional/Table/columns';
+import { columns } from '@/components/functional/Table/columns';
 import { DataTable } from '@/components/functional/Table/data-table';
-import { Button } from '@/components/ui/button';
 import { SiteStatus } from '@/interfaces/general';
+import type { ISiteRecord } from '@/interfaces/site';
 
-export const mockData: SiteRecord[] = [
+export const mockData: ISiteRecord[] = [
   {
     id: '1',
     name: 'banana.net/',
@@ -163,23 +157,8 @@ export const mockData: SiteRecord[] = [
 ];
 
 const HomePage = () => {
-  const navigate = useNavigate();
   return (
     <div className='container mx-auto py-2'>
-      {/* Top Bar */}
-      <div className='flex items-center justify-between mb-6'>
-        <h2 className='text-2xl font-bold tracking-tight'>Sites management</h2>
-        <div className='flex gap-2'>
-          <Button
-            variant='default'
-            className='flex items-center gap-1 cursor-pointer'
-            onClick={() => navigate('/app/add-site')}
-          >
-            <Plus className='w-4 h-4' /> Add
-          </Button>
-        </div>
-      </div>
-      {/* Table */}
       <DataTable columns={columns} data={mockData} />
     </div>
   );

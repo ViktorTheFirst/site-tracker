@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import {
   type ColumnDef,
@@ -20,7 +21,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,6 +33,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const navigate = useNavigate();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -50,21 +53,34 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className='relative w-full max-w-sm'>
-        <Search
-          className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400'
-          size={16}
-        />
-        <Input
-          id='search site name'
-          placeholder='Search address...'
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('name')?.setFilterValue(event.target.value)
-          }
-          className='max-w-sm pl-10 mb-5'
-        />
+      <div className='flex items-center justify-between mb-6'>
+        <div className='relative w-full max-w-xs'>
+          <Search
+            className='absolute left-3 top-4 -translate-y-1/2 text-gray-400'
+            size={16}
+          />
+          <Input
+            id='search site name'
+            placeholder='Search address...'
+            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+            onChange={(event) =>
+              table.getColumn('name')?.setFilterValue(event.target.value)
+            }
+            className='max-w-xs pl-10'
+          />
+        </div>
+        <h2 className='text-2xl font-bold tracking-tight'>Sites management</h2>
+        <div className='flex gap-2'>
+          <Button
+            variant='default'
+            className='flex items-center gap-1'
+            onClick={() => navigate('/app/add-site')}
+          >
+            <Plus className='w-4 h-4' /> Add
+          </Button>
+        </div>
       </div>
+
       <div className='overflow-hidden rounded-md border'>
         <Table>
           <TableHeader>
