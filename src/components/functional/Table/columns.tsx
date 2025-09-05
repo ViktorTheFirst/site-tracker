@@ -21,7 +21,9 @@ import PasswordCell from './PasswordCell';
 import StatusCell from './StatusCell';
 import type { ISiteRecord } from '@/interfaces/site';
 
-export const columns: ColumnDef<ISiteRecord>[] = [
+const createColumns = (
+  onEditSiteClick: (id: number) => void
+): ColumnDef<ISiteRecord>[] => [
   {
     accessorKey: 'name',
     header: 'Name',
@@ -171,7 +173,11 @@ export const columns: ColumnDef<ISiteRecord>[] = [
                 Visit hosting
               </a>
             </DropdownMenuItem>
-            <DropdownMenuItem>Edit site</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => onEditSiteClick(Number(row.original.id))}
+            >
+              Edit site
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className='text-red-500'>
               Remove site
@@ -182,3 +188,5 @@ export const columns: ColumnDef<ISiteRecord>[] = [
     },
   },
 ];
+
+export default createColumns;

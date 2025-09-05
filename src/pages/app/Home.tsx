@@ -1,7 +1,10 @@
-import { columns } from '@/components/functional/Table/columns';
+import { getSiteAPI } from '@/api/site';
+import EditSiteDialog from '@/components/functional/EditSiteDialog';
+import createColumns from '@/components/functional/Table/columns';
 import { DataTable } from '@/components/functional/Table/data-table';
-import { SiteStatus } from '@/interfaces/general';
+import { SiteStatus, Status } from '@/interfaces/general';
 import type { ISiteRecord } from '@/interfaces/site';
+import { useState } from 'react';
 
 export const mockData: ISiteRecord[] = [
   {
@@ -157,9 +160,24 @@ export const mockData: ISiteRecord[] = [
 ];
 
 const HomePage = () => {
+  const [editSiteData, setEditSiteData] = useState<ISiteRecord | null>(null);
+
+  const onEditSiteClick = async (id: number) => {
+    const getSiteResult = await getSiteAPI(id);
+
+    getSiteResult.status === Status.SUCCESS &&
+      setEditSiteData(getSiteResult.data);
+  };
+
+  const columns = createColumns(onEditSiteClick);
+
   return (
     <div className='container mx-auto py-2'>
       <DataTable columns={columns} data={mockData} />
+      <EditSiteDialog
+        onClose={() => setEditSiteData(null)}
+        siteData={editSiteData}
+      />
     </div>
   );
 };

@@ -1,4 +1,7 @@
-import type { SiteStatus as SiteStatusType } from '@/interfaces/general';
+import type {
+  SiteStatus as SiteStatusType,
+  Status,
+} from '@/interfaces/general';
 
 interface ISiteRecord {
   id?: string;
@@ -20,18 +23,29 @@ interface ISiteRecord {
 
 interface IAddSiteRequest {
   name: string;
-  hostingProvider: string;
-  hostingLogin: string;
-  hostingPassword: string;
-  hostingValiduntil: Date;
+  hostingProvider?: string;
+  hostingLogin?: string;
+  hostingPassword?: string;
+  hostingValiduntil?: Date;
 
-  domainRegistrar: string;
-  domainLogin: string;
-  domainPassword: string;
-  domainValiduntil: Date;
+  domainRegistrar?: string;
+  domainLogin?: string;
+  domainPassword?: string;
+  domainValiduntil?: Date;
 
   comments: string;
   status: SiteStatusType;
 }
 
-export type { ISiteRecord, IAddSiteRequest };
+interface IAddSiteResponse {
+  status: Status;
+  id: number;
+  message: string;
+}
+
+interface IGetSiteResult {
+  status: Status;
+  data: ISiteRecord;
+}
+
+export type { ISiteRecord, IAddSiteRequest, IAddSiteResponse, IGetSiteResult };

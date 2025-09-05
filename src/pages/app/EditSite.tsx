@@ -9,14 +9,13 @@ import SiteForm, { addFormSchema } from '@/components/functional/SIteForm';
 import { addSiteAPI } from '@/api/site';
 import { Status } from '@/interfaces/general';
 
-const AddSitePage = () => {
+const EditSitePage = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (values: z.infer<typeof addFormSchema>) => {
-    console.log('values in handleSubmit', values);
-    const addResult = await addSiteAPI(values);
+    const editResult = await addSiteAPI(values);
 
-    addResult.status === Status.SUCCESS && navigate('/app/home');
+    editResult.status === Status.SUCCESS && navigate('/app/home');
   };
 
   return (
@@ -35,7 +34,7 @@ const AddSitePage = () => {
       <Card className='w-full max-w-2xl'>
         <CardHeader>
           <CardTitle className='text-2xl text-center flex items-center justify-center gap-2'>
-            Add site details
+            Edit site details
           </CardTitle>
         </CardHeader>
         <CardContent className='space-y-4'>
@@ -46,4 +45,4 @@ const AddSitePage = () => {
   );
 };
 
-export default AddSitePage;
+export default EditSitePage;

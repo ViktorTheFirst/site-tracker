@@ -148,6 +148,10 @@
   }
 }
 
+.form-row {
+  @apply flex flex-row justify-between;
+}
+
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--muted-foreground) var(--background);

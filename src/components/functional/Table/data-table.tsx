@@ -99,10 +99,10 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       colSpan={header.colSpan}
-                      className={clsx({
-                        'bg-blue-200 text-white text-center font-semibold':
+                      className={clsx('bg-gray-300 text-center font-semibold', {
+                        'bg-blue-200 text-center font-semibold':
                           isHostingHeader,
-                        'bg-green-200 text-white text-center font-semibold':
+                        'bg-green-200  text-center font-semibold':
                           isDomainHeader,
                         'bg-blue-100 text-blue-800 text-center':
                           isHostingSubHeader,
