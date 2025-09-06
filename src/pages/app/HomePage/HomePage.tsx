@@ -1,13 +1,9 @@
-import { useState } from 'react';
-import { z } from 'zod';
-
-import { editSiteAPI, getSiteAPI } from '@/api/site';
-import EditSiteDialog from '@/components/functional/EditSiteDialog';
-import createColumns from '@/components/functional/Table/columns';
-import { DataTable } from '@/components/functional/Table/data-table';
-import { SiteStatus, Status } from '@/interfaces/general';
+import { DataTable } from '@/pages/app/HomePage/data-table';
+import { SiteStatus } from '@/interfaces/general';
 import type { ISiteRecord } from '@/interfaces/site';
-import type { addFormSchema } from '@/components/functional/SIteForm';
+
+import columns from '@/pages/app/HomePage/columns';
+import { useGetAllSites } from '@/store/siteSlice';
 
 export const mockData: ISiteRecord[] = [
   {
@@ -163,33 +159,11 @@ export const mockData: ISiteRecord[] = [
 ];
 
 const HomePage = () => {
-  const [editSiteData, setEditSiteData] = useState<ISiteRecord | null>(null);
-
-  // TODO: fetch all sites according to user role
-
-  const onEditSiteClick = async (id: number) => {
-    const getSiteResult = await getSiteAPI(id);
-
-    getSiteResult.status === Status.SUCCESS &&
-      setEditSiteData(getSiteResult.data);
-  };
-
-  const onSubmitEdit = async (values: z.infer<typeof addFormSchema>) => {
-    const editResult = await editSiteAPI(values);
-
-    editResult.status === Status.SUCCESS && setEditSiteData(null);
-  };
-
-  const columns = createColumns(onEditSiteClick);
+  const { data: sites, isLoading, isError } = useGetAllSites();
 
   return (
     <div className='container mx-auto py-2'>
-      <DataTable columns={columns} data={mockData} />
-      <EditSiteDialog
-        siteData={editSiteData}
-        onClose={() => setEditSiteData(null)}
-        onSubmitEdit={onSubmitEdit}
-      />
+      <DataTable columns={columns} data={sites?.data ?? []} />
     </div>
   );
 };

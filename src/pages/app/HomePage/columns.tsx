@@ -1,5 +1,5 @@
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { type ColumnDef } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
@@ -17,13 +17,11 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { getLinkAddress, getSlimName } from '@/utils/helpers';
-import PasswordCell from './PasswordCell';
-import StatusCell from './StatusCell';
+import PasswordCell from '../../../components/functional/Table/PasswordCell';
+import StatusCell from '../../../components/functional/Table/StatusCell';
 import type { ISiteRecord } from '@/interfaces/site';
 
-const createColumns = (
-  onEditSiteClick: (id: number) => void
-): ColumnDef<ISiteRecord>[] => [
+const columns: ColumnDef<ISiteRecord>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
@@ -145,6 +143,8 @@ const createColumns = (
   {
     id: 'actions',
     cell: ({ row }) => {
+      const navigate = useNavigate();
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -174,7 +174,7 @@ const createColumns = (
               </a>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => onEditSiteClick(Number(row.original.id))}
+              onClick={() => navigate(`/app/edit-site/${row.original.id}`)}
             >
               Edit site
             </DropdownMenuItem>
@@ -189,4 +189,4 @@ const createColumns = (
   },
 ];
 
-export default createColumns;
+export default columns;

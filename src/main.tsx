@@ -7,16 +7,19 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import './index.css';
 import App from './App';
 import AuthLayout from './layouts/AuthLayout';
 import PublicRoute from './guards/PublicRoute';
 import LoginPage from './pages/auth/LoginPage';
 import NotFoundPage from './pages/app/NotFoundPage';
-import HomePage from './pages/app/Home';
+import HomePage from './pages/app/HomePage/HomePage';
 import AppLayout from './layouts/AppLayout';
 import PrivateRoute from './guards/PrivateRoute';
 import AddSitePage from './pages/app/AddSite';
+import EditSitePage from './pages/app/EditSite';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +39,8 @@ const router = createBrowserRouter(
         <Route element={<AppLayout />}>
           <Route path='/app/home' element={<HomePage />} />
           <Route path='/app/add-site' element={<AddSitePage />} />
+          <Route path='/app/edit-site' element={<EditSitePage />} />
+          <Route path='/app/edit-site/:id' element={<EditSitePage />} />
         </Route>
       </Route>
 
@@ -45,8 +50,24 @@ const router = createBrowserRouter(
   )
 );
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 5 * 60 * 1000,
+      gcTime: 5 * 60 * 1000,
+    },
+    mutations: {
+      retry: 0,
+    },
+  },
+});
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition='bottom-right' />
+    </QueryClientProvider>
   </StrictMode>
 );

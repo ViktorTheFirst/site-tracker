@@ -1,24 +1,28 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { ArrowLeft } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 import SiteForm, { addFormSchema } from '@/components/functional/SIteForm';
 import { Status } from '@/interfaces/general';
-import { useAddSite } from '@/store/siteSlice';
+import { useGetSiteById, useUpdateSite } from '@/store/siteSlice';
 
-const AddSitePage = () => {
+const EditSitePage = () => {
   const navigate = useNavigate();
-  const { mutateAsync: addSite, isPending } = useAddSite();
+  const { id } = useParams<{ id: string }>();
+
+  const { data: siteData, isLoading, isError } = useGetSiteById(id || '');
+  const { mutateAsync: editSite, isPending } = useUpdateSite();
 
   const handleSubmit = async (values: z.infer<typeof addFormSchema>) => {
+    console.log('INSIDE HANDLE SUBMIT');
     try {
-      const addResult = await addSite(values); // this updates the query cache automatically
-      addResult.status === Status.SUCCESS && navigate('/app/home');
+      const editResult = await editSite(values);
+      console.log('editResult', editResult);
+      editResult.status === Status.SUCCESS && navigate('/app/home');
     } catch (error) {
-      console.error('Failed to add site:', error);
+      console.error('Failed to edit site:', error);
       // Optionally show a toast notification here
     }
   };
@@ -39,15 +43,18 @@ const AddSitePage = () => {
       <Card className='w-full max-w-2xl'>
         <CardHeader>
           <CardTitle className='text-2xl text-center flex items-center justify-center gap-2'>
-            Add site details
+            Edit site details
           </CardTitle>
         </CardHeader>
         <CardContent className='space-y-4'>
-          <SiteForm existingSiteData={null} onSubmitClick={handleSubmit} />
+          <SiteForm
+            existingSiteData={siteData?.data ?? null}
+            onSubmitClick={handleSubmit}
+          />
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default AddSitePage;
+export default EditSitePage;

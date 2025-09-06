@@ -16,6 +16,7 @@ import DatePicker from './DatePicker';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '../ui/label';
 import type { ISiteRecord } from '@/interfaces/site';
+import { useEffect } from 'react';
 
 export const addFormSchema = z.object({
   id: z.string().optional(),
@@ -43,26 +44,43 @@ const SiteForm = ({ onSubmitClick, existingSiteData }: SiteFormProps) => {
   const form = useForm<z.infer<typeof addFormSchema>>({
     resolver: zodResolver(addFormSchema),
     defaultValues: {
-      id: existingSiteData?.id?.toString() || undefined,
-      name: existingSiteData?.name || '',
-      hostingProvider: existingSiteData?.hostingProvider || '',
-      hostingLogin: existingSiteData?.hostingLogin || '',
-      hostingPassword: existingSiteData?.hostingPassword || '',
-      hostingValiduntil: existingSiteData?.hostingValiduntil
-        ? new Date(existingSiteData.hostingValiduntil)
-        : new Date(),
-
-      domainRegistrar: existingSiteData?.domainRegistrar || '',
-      domainLogin: existingSiteData?.domainLogin || '',
-      domainPassword: existingSiteData?.domainPassword || '',
-      domainValiduntil: existingSiteData?.domainValiduntil
-        ? new Date(existingSiteData.domainValiduntil)
-        : new Date(),
-
-      comments: existingSiteData?.comments || '',
-      status: existingSiteData?.status || 'active',
+      id: undefined,
+      name: '',
+      hostingProvider: '',
+      hostingLogin: '',
+      hostingPassword: '',
+      hostingValiduntil: new Date(),
+      domainRegistrar: '',
+      domainLogin: '',
+      domainPassword: '',
+      domainValiduntil: new Date(),
+      comments: '',
+      status: 'active',
     },
   });
+
+  useEffect(() => {
+    if (existingSiteData) {
+      form.reset({
+        id: existingSiteData.id?.toString(),
+        name: existingSiteData.name || '',
+        hostingProvider: existingSiteData.hostingProvider || '',
+        hostingLogin: existingSiteData.hostingLogin || '',
+        hostingPassword: existingSiteData.hostingPassword || '',
+        hostingValiduntil: existingSiteData.hostingValiduntil
+          ? new Date(existingSiteData.hostingValiduntil)
+          : new Date(),
+        domainRegistrar: existingSiteData.domainRegistrar || '',
+        domainLogin: existingSiteData.domainLogin || '',
+        domainPassword: existingSiteData.domainPassword || '',
+        domainValiduntil: existingSiteData.domainValiduntil
+          ? new Date(existingSiteData.domainValiduntil)
+          : new Date(),
+        comments: existingSiteData.comments || '',
+        status: existingSiteData.status || 'active',
+      });
+    }
+  }, [existingSiteData, form]);
 
   return (
     <Form {...form}>
