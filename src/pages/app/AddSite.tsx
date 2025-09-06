@@ -13,7 +13,6 @@ const AddSitePage = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (values: z.infer<typeof addFormSchema>) => {
-    console.log('values in handleSubmit', values);
     const addResult = await addSiteAPI(values);
 
     addResult.status === Status.SUCCESS && navigate('/app/home');

@@ -4,6 +4,7 @@ import { getBaseUrl } from '@/utils/helpers';
 import type {
   IAddSiteRequest,
   IAddSiteResponse,
+  IEditSiteRequest,
   IGetSiteResult,
 } from '@/interfaces/site';
 
@@ -48,13 +49,13 @@ const addSiteAPI = async (
   }
 };
 
-/* const editSiteAPI = async (
-  siteData: IAddSiteRequest
+const editSiteAPI = async (
+  siteData: IEditSiteRequest
 ): Promise<IAddSiteResponse> => {
   try {
-    const result = await axios({
+    const result = await axios<IEditSiteRequest, { data: IAddSiteResponse }>({
       method: 'post',
-      url: `${baseUrl}/api/v1/site`,
+      url: `${baseUrl}/api/v1/site/edit-site`,
       data: siteData,
       headers: {
         'Content-Type': 'application/json',
@@ -64,9 +65,9 @@ const addSiteAPI = async (
 
     return result.data;
   } catch (err: any) {
-    console.warn('Adding site failed on FE ' + err);
+    console.warn('Editting site failed on FE ' + err);
     throw err as AxiosError;
   }
-}; */
+};
 
-export { addSiteAPI, getSiteAPI };
+export { addSiteAPI, getSiteAPI, editSiteAPI };

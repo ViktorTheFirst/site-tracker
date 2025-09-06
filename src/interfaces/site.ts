@@ -48,4 +48,14 @@ interface IGetSiteResult {
   data: ISiteRecord;
 }
 
-export type { ISiteRecord, IAddSiteRequest, IAddSiteResponse, IGetSiteResult };
+interface IEditSiteRequest extends IAddSiteRequest {
+  id?: string;
+}
+
+export type {
+  ISiteRecord,
+  IAddSiteRequest,
+  IAddSiteResponse,
+  IGetSiteResult,
+  IEditSiteRequest,
+};

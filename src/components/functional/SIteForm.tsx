@@ -18,6 +18,7 @@ import { Label } from '../ui/label';
 import type { ISiteRecord } from '@/interfaces/site';
 
 export const addFormSchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(2).max(255),
   hostingProvider: z.url('Must be a valid URL').optional(),
   hostingLogin: z.string().min(2).max(100).optional(),
@@ -33,15 +34,16 @@ export const addFormSchema = z.object({
   status: z.enum(['active', 'inactive']),
 });
 
-interface AddSiteFormProps {
+interface SiteFormProps {
   existingSiteData: ISiteRecord | null;
   onSubmitClick: (values: z.infer<typeof addFormSchema>) => void;
 }
 
-const SiteForm = ({ onSubmitClick, existingSiteData }: AddSiteFormProps) => {
+const SiteForm = ({ onSubmitClick, existingSiteData }: SiteFormProps) => {
   const form = useForm<z.infer<typeof addFormSchema>>({
     resolver: zodResolver(addFormSchema),
     defaultValues: {
+      id: existingSiteData?.id?.toString() || undefined,
       name: existingSiteData?.name || '',
       hostingProvider: existingSiteData?.hostingProvider || '',
       hostingLogin: existingSiteData?.hostingLogin || '',

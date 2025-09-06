@@ -1,15 +1,20 @@
+import { z } from 'zod';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import SiteForm from './SIteForm';
+import SiteForm, { addFormSchema } from './SIteForm';
 import type { ISiteRecord } from '@/interfaces/site';
 
 interface EditDialogProps {
-  onClose: () => void;
   siteData: ISiteRecord | null;
+  onClose: () => void;
+  onSubmitEdit: (values: z.infer<typeof addFormSchema>) => void;
 }
 
-const EditSiteDialog = ({ onClose, siteData }: EditDialogProps) => {
-  console.log('EditSiteDialog - !!siteData', !!siteData);
+const EditSiteDialog = ({
+  onClose,
+  siteData,
+  onSubmitEdit,
+}: EditDialogProps) => {
   return (
     <Dialog open={!!siteData} onOpenChange={onClose}>
       <DialogContent className='min-w-2xl max-w-4xl w-full p-0'>
@@ -20,7 +25,10 @@ const EditSiteDialog = ({ onClose, siteData }: EditDialogProps) => {
             </CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <SiteForm existingSiteData={siteData} onSubmitClick={() => {}} />
+            <SiteForm
+              existingSiteData={siteData}
+              onSubmitClick={onSubmitEdit}
+            />
           </CardContent>
         </Card>
       </DialogContent>
