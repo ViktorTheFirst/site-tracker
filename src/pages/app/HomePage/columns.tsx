@@ -1,16 +1,9 @@
-import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { ArrowUpDown } from 'lucide-react';
 import { type ColumnDef } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
 import {
   Tooltip,
   TooltipContent,
@@ -20,6 +13,7 @@ import { getLinkAddress, getSlimName } from '@/utils/helpers';
 import PasswordCell from '../../../components/functional/Table/PasswordCell';
 import StatusCell from '../../../components/functional/Table/StatusCell';
 import type { ISiteRecord } from '@/interfaces/site';
+import ActionsCell from '@/components/functional/Table/ActionCell';
 
 const columns: ColumnDef<ISiteRecord>[] = [
   {
@@ -142,50 +136,7 @@ const columns: ColumnDef<ISiteRecord>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
-      const navigate = useNavigate();
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0 cursor-pointer'>
-              <span className='sr-only'>Open menu</span>
-              <MoreHorizontal className='h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem asChild>
-              <a
-                href={getLinkAddress(row.original.domainRegistrar)}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                Visit domain
-              </a>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <a
-                href={getLinkAddress(row.original.hostingProvider)}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                Visit hosting
-              </a>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigate(`/app/edit-site/${row.original.id}`)}
-            >
-              Edit site
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className='text-red-500'>
-              Remove site
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => <ActionsCell site={row.original} />,
   },
 ];
 

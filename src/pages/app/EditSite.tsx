@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import SiteForm, { addFormSchema } from '@/components/functional/SIteForm';
+import SiteForm, { addFormSchema } from '@/components/functional/SiteForm';
 import { Status } from '@/interfaces/general';
 import { useGetSiteById, useUpdateSite } from '@/store/siteSlice';
 
@@ -16,10 +16,8 @@ const EditSitePage = () => {
   const { mutateAsync: editSite, isPending } = useUpdateSite();
 
   const handleSubmit = async (values: z.infer<typeof addFormSchema>) => {
-    console.log('INSIDE HANDLE SUBMIT');
     try {
       const editResult = await editSite(values);
-      console.log('editResult', editResult);
       editResult.status === Status.SUCCESS && navigate('/app/home');
     } catch (error) {
       console.error('Failed to edit site:', error);

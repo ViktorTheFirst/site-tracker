@@ -21,14 +21,30 @@ import { useEffect } from 'react';
 export const addFormSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(2).max(255),
-  hostingProvider: z.url('Must be a valid URL').optional(),
-  hostingLogin: z.string().min(2).max(100).optional(),
-  hostingPassword: z.string().min(6).max(100).optional(),
+  hostingProvider: z
+    .string()
+    .transform((val) =>
+      val && !/^https?:\/\//.test(val) ? `https://${val}` : val
+    )
+    .refine((val) => !val || z.url().safeParse(val).success, {
+      message: 'Must be a valid URL',
+    })
+    .optional(),
+  hostingLogin: z.string().max(100).optional(),
+  hostingPassword: z.string().max(100).optional(),
   hostingValiduntil: z.date('Must be a valid date').optional(),
 
-  domainRegistrar: z.url('Must be a valid URL').optional(),
-  domainLogin: z.string().min(2).max(100).optional(),
-  domainPassword: z.string().min(6).max(100).optional(),
+  domainRegistrar: z
+    .string()
+    .transform((val) =>
+      val && !/^https?:\/\//.test(val) ? `https://${val}` : val
+    )
+    .refine((val) => !val || z.url().safeParse(val).success, {
+      message: 'Must be a valid URL',
+    })
+    .optional(),
+  domainLogin: z.string().max(100).optional(),
+  domainPassword: z.string().max(100).optional(),
   domainValiduntil: z.date('Must be a valid date').optional(),
 
   comments: z.string().max(1000),

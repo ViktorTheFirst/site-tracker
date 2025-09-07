@@ -3,6 +3,7 @@ import {
   editSiteAPI,
   getAllSitesAPI,
   getSiteAPI,
+  removeSiteAPI,
 } from '@/api/site';
 import type { ISiteRecord } from '@/interfaces/site';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -31,14 +32,8 @@ export const useAddSite = () => {
 
   return useMutation({
     mutationFn: addSiteAPI,
-    onSuccess: (newSite) => {
-      // Update the sites list in cache
-      queryClient.setQueryData(
-        ['sites'],
-        (oldSites: ISiteRecord[] | undefined) => {
-          return oldSites ? [...oldSites, newSite] : [newSite];
-        }
-      );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sites'] });
     },
     onError: (error) => {
       console.error('Error adding site:', error);
@@ -77,6 +72,18 @@ export const useGetAllSites = () => {
     queryFn: getAllSitesAPI,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
+  });
+};
+
+export const useDeleteSite = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: removeSiteAPI,
+    onSuccess: (_, deletedId) => {
+      queryClient.invalidateQueries({ queryKey: ['sites'] });
+      queryClient.removeQueries({ queryKey: ['site', deletedId] });
+    },
   });
 };
 

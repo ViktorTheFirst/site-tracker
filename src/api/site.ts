@@ -88,4 +88,22 @@ const getAllSitesAPI = async (): Promise<IGetAllSitesResult> => {
   }
 };
 
-export { addSiteAPI, getSiteAPI, editSiteAPI, getAllSitesAPI };
+const removeSiteAPI = async (id: number): Promise<IAddSiteResponse> => {
+  try {
+    console.log('removeSiteAPI', id);
+    const result = await axios<undefined, { data: IAddSiteResponse }>({
+      method: 'delete',
+      url: `${baseUrl}/api/v1/site/${id}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+    return result.data;
+  } catch (err: any) {
+    console.warn('Removing site failed on FE ' + err);
+    throw err as AxiosError;
+  }
+};
+
+export { addSiteAPI, getSiteAPI, editSiteAPI, getAllSitesAPI, removeSiteAPI };

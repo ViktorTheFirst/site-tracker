@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import SiteForm, { addFormSchema } from '@/components/functional/SIteForm';
+import SiteForm, { addFormSchema } from '@/components/functional/SiteForm';
 import { Status } from '@/interfaces/general';
 import { useAddSite } from '@/store/siteSlice';
 

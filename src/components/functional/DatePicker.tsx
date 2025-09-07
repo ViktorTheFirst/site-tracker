@@ -22,7 +22,7 @@ const DatePicker = ({ value, onChange, id }: DatePickerProps) => {
           className='w-48 justify-between font-normal'
         >
           <span className='flex w-full items-center justify-between'>
-            {value ? value.toLocaleDateString() : 'Select date'}
+            {value ? value.toLocaleDateString('en-GB') : 'Select date'}
             <ChevronDownIcon />
           </span>
         </Button>
@@ -32,6 +32,8 @@ const DatePicker = ({ value, onChange, id }: DatePickerProps) => {
           mode='single'
           selected={value}
           captionLayout='dropdown'
+          startMonth={new Date()}
+          endMonth={new Date(2055, 12)}
           onSelect={(date) => {
             onChange(date);
             setOpen(false);
