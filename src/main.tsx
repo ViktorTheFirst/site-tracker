@@ -20,6 +20,9 @@ import AppLayout from './layouts/AppLayout';
 import PrivateRoute from './guards/PrivateRoute';
 import AddSitePage from './pages/app/AddSite';
 import EditSitePage from './pages/app/EditSite';
+import AllUsersPage from './pages/app/UsersPage';
+import InviteUserPage from './pages/app/InviteUserPage';
+import LogsPage from './pages/app/LogsPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +44,9 @@ const router = createBrowserRouter(
           <Route path='/app/add-site' element={<AddSitePage />} />
           <Route path='/app/edit-site' element={<EditSitePage />} />
           <Route path='/app/edit-site/:id' element={<EditSitePage />} />
+          <Route path='/app/invite-user' element={<InviteUserPage />} />
+          <Route path='/app/users' element={<AllUsersPage />} />
+          <Route path='/app/logs' element={<LogsPage />} />
         </Route>
       </Route>
 

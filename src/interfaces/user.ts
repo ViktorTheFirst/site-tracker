@@ -2,7 +2,7 @@ import type { Status } from './general';
 
 const Role = {
   USER: 'user',
-  AMIM: 'admin',
+  ADMIN: 'admin',
   DEV_ADMIN: 'dev-admin',
 } as const;
 
@@ -23,4 +23,4 @@ interface ILoginResponse {
   user: IUser;
 }
 
-export type { IUser, ILoginResponse, Role };
+export { type IUser, type ILoginResponse, Role };
