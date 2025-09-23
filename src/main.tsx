@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+import { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   createBrowserRouter,
@@ -11,7 +11,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import './index.css';
 import App from './App';
-import AuthLayout from './layouts/AuthLayout';
 import PublicRoute from './guards/PublicRoute';
 import LoginPage from './pages/auth/LoginPage';
 import NotFoundPage from './pages/app/NotFoundPage';
@@ -21,8 +20,11 @@ import PrivateRoute from './guards/PrivateRoute';
 import AddSitePage from './pages/app/AddSite';
 import EditSitePage from './pages/app/EditSite';
 import AllUsersPage from './pages/app/UsersPage';
-import InviteUserPage from './pages/app/InviteUserPage';
+import InviteUserPage from './pages/app/InviteUserPage/InviteUserPage';
 import LogsPage from './pages/app/LogsPage';
+import { Toaster } from './components/ui/sonner';
+import GlobalLoader from './components/functional/GlobalLoader';
+import AuthLayout from './layouts/AuthLayout';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -72,8 +74,14 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} buttonPosition='bottom-right' />
+      <Suspense fallback={<GlobalLoader />}>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools
+          initialIsOpen={false}
+          buttonPosition='bottom-right'
+        />
+        <Toaster richColors closeButton />
+      </Suspense>
     </QueryClientProvider>
   </StrictMode>
 );

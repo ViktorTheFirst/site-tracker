@@ -8,6 +8,7 @@ import { useGetAllSites } from '@/store/siteSlice';
 // by checking it domain gets disabled with same values as hosting already filled
 // 2. add modal to ask user if he wants to delete site
 // 3. add toasts for site adding, editing and deletion
+// 4. if there is no data in table cell show ------
 
 const HomePage = () => {
   const { data: sites, isLoading, isError } = useGetAllSites();

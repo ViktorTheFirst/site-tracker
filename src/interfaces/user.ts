@@ -8,6 +8,14 @@ const Role = {
 
 type Role = (typeof Role)[keyof typeof Role];
 
+const UserStatus = {
+  INVITED: 'invited',
+  CANCELED: 'canceled',
+  ACCEPTED: 'accepted',
+} as const;
+
+type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];
+
 interface IUser {
   id?: number;
   name?: string;
@@ -15,6 +23,8 @@ interface IUser {
   password?: string;
   isDisabled: boolean;
   role: Role;
+  allowedSiteIds: number[];
+  status: UserStatus;
 }
 
 interface ILoginResponse {
@@ -23,4 +33,21 @@ interface ILoginResponse {
   user: IUser;
 }
 
-export { type IUser, type ILoginResponse, Role };
+interface IInviteUserRequest {
+  email: string;
+  allowedSiteIds: string[];
+}
+
+interface IInviteUserResponse {
+  status: Status;
+  message: string;
+  id: number;
+}
+
+export {
+  type IUser,
+  type ILoginResponse,
+  Role,
+  type IInviteUserRequest,
+  type IInviteUserResponse,
+};

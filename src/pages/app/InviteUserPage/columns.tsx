@@ -3,20 +3,51 @@ import { ArrowUpDown } from 'lucide-react';
 import { type ColumnDef } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
-
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { getLinkAddress, getSlimName } from '@/utils/helpers';
-import PasswordCell from '../../../components/functional/Table/PasswordCell';
 import StatusCell from '../../../components/functional/Table/StatusCell';
 import type { ISiteRecord } from '@/interfaces/site';
-import ActionsCell from '@/components/functional/Table/ActionCell';
+import { Checkbox } from '@/components/ui/checkbox';
 import { NO_DATA } from '@/utils/constants';
 
-const columns: ColumnDef<ISiteRecord>[] = [
+const columns: ColumnDef<
+  Pick<
+    ISiteRecord,
+    | 'id'
+    | 'name'
+    | 'hostingProvider'
+    | 'domainRegistrar'
+    | 'status'
+    | 'lastModifiedBy'
+    | 'comments'
+  >
+>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label='Select all'
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label='Select row'
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: 'name',
     header: 'Name',
@@ -34,67 +65,36 @@ const columns: ColumnDef<ISiteRecord>[] = [
     },
   },
   {
-    id: 'Hosting',
-    header: 'Hosting',
-    columns: [
-      {
-        accessorKey: 'hostingLogin',
-        header: 'Login',
-      },
-      {
-        accessorKey: 'hostingPassword',
-        header: 'Password',
-        cell: ({ getValue }) => <PasswordCell value={getValue<string>()} />,
-      },
-      {
-        accessorKey: 'hostingValiduntil',
-        header: ({ column }) => {
-          return (
-            <Button
-              variant='ghost'
-              onClick={() =>
-                column.toggleSorting(column.getIsSorted() === 'asc')
-              }
-              className='hover:bg-transparent hover:text-inherit'
-            >
-              Valid until
-              <ArrowUpDown className='ml-2 h-4 w-4' />
-            </Button>
-          );
-        },
-      },
-    ],
+    accessorKey: 'hostingProvider',
+    header: 'Hosting provider',
+    cell: ({ row }) => {
+      return (
+        <Link
+          to={getLinkAddress(row.original.hostingProvider)}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='cursor-pointer hover:bg-transparent hover:text-inherit'
+        >
+          {getSlimName(row.original.hostingProvider) || NO_DATA}
+        </Link>
+      );
+    },
   },
   {
-    header: 'Domain',
-    columns: [
-      {
-        accessorKey: 'domainLogin',
-        header: 'Login',
-      },
-      {
-        accessorKey: 'domainPassword',
-        header: 'Password',
-        cell: ({ getValue }) => <PasswordCell value={getValue<string>()} />,
-      },
-      {
-        accessorKey: 'domainValiduntil',
-        header: ({ column }) => {
-          return (
-            <Button
-              variant='ghost'
-              onClick={() =>
-                column.toggleSorting(column.getIsSorted() === 'asc')
-              }
-              className='hover:bg-transparent hover:text-inherit'
-            >
-              Valid until
-              <ArrowUpDown className='ml-2 h-4 w-4' />
-            </Button>
-          );
-        },
-      },
-    ],
+    accessorKey: 'domainRegistrar',
+    header: 'Domain registrar',
+    cell: ({ row }) => {
+      return (
+        <Link
+          to={getLinkAddress(row.original.domainRegistrar)}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='cursor-pointer hover:bg-transparent hover:text-inherit'
+        >
+          {getSlimName(row.original.domainRegistrar) || NO_DATA}
+        </Link>
+      );
+    },
   },
   {
     accessorKey: 'comments',
@@ -134,10 +134,6 @@ const columns: ColumnDef<ISiteRecord>[] = [
   {
     accessorKey: 'lastModifiedBy',
     header: 'Last modified by',
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => <ActionsCell site={row.original} />,
   },
 ];
 

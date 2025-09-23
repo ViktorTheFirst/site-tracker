@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Eye } from 'lucide-react';
+import { NO_DATA } from '@/utils/constants';
 
 interface PasswordCellProps {
   value: string;
@@ -11,7 +12,7 @@ const PasswordCell = ({ value }: PasswordCellProps) => {
   return (
     <div className='relative min-w-[120px] max-w-xs flex justify-center'>
       {show ? (
-        value
+        value || NO_DATA
       ) : (
         <Eye
           size={16}
