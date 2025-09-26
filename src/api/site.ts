@@ -8,6 +8,7 @@ import type {
   IGetAllSitesResult,
   IGetSiteResult,
 } from '@/interfaces/site';
+import { axiosWithLogout } from './axiosWithLogout';
 
 const baseUrl = getBaseUrl();
 
@@ -70,23 +71,15 @@ const editSiteAPI = async (
   }
 };
 
-const getAllSitesAPI = async (): Promise<IGetAllSitesResult> => {
-  try {
-    const result = await axios<undefined, { data: IGetAllSitesResult }>({
-      method: 'get',
-      url: `${baseUrl}/api/v1/site`,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    });
-
-    return result.data;
-  } catch (err: any) {
-    console.warn('Getting sites failed on FE ' + err);
-    throw err as AxiosError;
-  }
-};
+const getAllSitesAPI = async (): Promise<IGetAllSitesResult> =>
+  axiosWithLogout<IGetAllSitesResult>({
+    method: 'get',
+    url: `${baseUrl}/api/v1/site`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+  });
 
 const removeSiteAPI = async (id: number): Promise<IAddSiteResponse> => {
   try {

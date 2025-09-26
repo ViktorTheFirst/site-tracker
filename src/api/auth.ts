@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-import type { ILoginResponse, IUser } from '@/interfaces/user';
+import type { ILoginResponse, ILogoutResponse, IUser } from '@/interfaces/user';
 import { getBaseUrl } from '@/utils/helpers';
 
 const baseUrl = getBaseUrl();
@@ -26,4 +26,22 @@ const loginAPI = async (
   }
 };
 
-export { loginAPI };
+const logoutAPI = async (): Promise<ILogoutResponse> => {
+  try {
+    const result = await axios({
+      method: 'post',
+      url: `${baseUrl}/api/v1/auth/logout`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+
+    return result.data;
+  } catch (err: any) {
+    console.warn('User logout failed on FE ' + err);
+    throw err as AxiosError;
+  }
+};
+
+export { loginAPI, logoutAPI };

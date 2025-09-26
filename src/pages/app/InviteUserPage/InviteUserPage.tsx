@@ -11,6 +11,11 @@ import columns from './columns';
 import { useGetAllSites } from '@/store/siteSlice';
 import { inviteUserAPI } from '@/api/user';
 import { Status } from '@/interfaces/general';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const InviteUserPage = () => {
   const navigate = useNavigate();
@@ -25,16 +30,17 @@ const InviteUserPage = () => {
       allowedSiteIds: selectedSites,
     });
 
-    invitationRes.status === Status.SUCCESS &&
+    if (invitationRes.status === Status.SUCCESS) {
       toast.success('Invite sent successfully!');
+      navigate('/app/users');
+    }
+
     invitationRes.status === Status.FAIL &&
       toast.error(invitationRes.message || 'Invitation failed');
-
-    // TODO: after user added go see it in users page
   };
 
   const isAddUserBtnDisabled = useMemo(() => {
-    return !userEmail.length || !selectedSites.length;
+    return userEmail.length < 6 || !selectedSites.length;
   }, [userEmail, selectedSites]);
 
   return (
@@ -63,17 +69,35 @@ const InviteUserPage = () => {
           value={userEmail}
           onChange={(e) => setUserEmail(e.target.value)}
           className='w-lg'
+          minLength={5}
+          required
         />
-        <Button
-          className='ml-5'
-          variant='default'
-          size='default'
-          onClick={handleAddUser}
-          disabled={isAddUserBtnDisabled}
-        >
-          <Plus className='mr-2 h-4 w-4' />
-          Add user
-        </Button>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className='block max-w-[150px] truncate cursor-default'>
+              <Button
+                className='ml-5'
+                variant='default'
+                size='default'
+                onClick={handleAddUser}
+                disabled={isAddUserBtnDisabled}
+              >
+                <Plus className='mr-2 h-4 w-4' />
+                Add user
+              </Button>
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{`${
+              userEmail.length < 6 ? 'User email must be provided.' : ''
+            } ${
+              !selectedSites.length
+                ? 'Access to at least 1 site must be granted.'
+                : ''
+            } ${!isAddUserBtnDisabled ? 'Sent user email invitation' : ''}`}</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
       {/* ---------------------PERMISSIONS TABLE---------------------- */}
       <div className='container mx-auto py-2 mt-5'>

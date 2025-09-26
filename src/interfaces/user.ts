@@ -33,6 +33,11 @@ interface ILoginResponse {
   user: IUser;
 }
 
+interface ILogoutResponse {
+  status: Status;
+  message: string;
+}
+
 interface IInviteUserRequest {
   email: string;
   allowedSiteIds: string[];
@@ -50,4 +55,5 @@ export {
   Role,
   type IInviteUserRequest,
   type IInviteUserResponse,
+  type ILogoutResponse,
 };
