@@ -13,7 +13,7 @@ import { getLinkAddress, getSlimName } from '@/utils/helpers';
 import PasswordCell from '../../../components/functional/Table/PasswordCell';
 import StatusCell from '../../../components/functional/Table/StatusCell';
 import type { ISiteRecord } from '@/interfaces/site';
-import ActionsCell from '@/components/functional/Table/ActionCell';
+import SiteActionsCell from '@/components/functional/Table/SiteActionCell';
 import { NO_DATA } from '@/utils/constants';
 
 const columns: ColumnDef<ISiteRecord>[] = [
@@ -137,7 +137,7 @@ const columns: ColumnDef<ISiteRecord>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <ActionsCell site={row.original} />,
+    cell: ({ row }) => <SiteActionsCell site={row.original} />,
   },
 ];
 

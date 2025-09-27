@@ -21,6 +21,7 @@ interface IUser {
   name?: string;
   email: string;
   password?: string;
+  createdAt?: string;
   isDisabled: boolean;
   role: Role;
   allowedSiteIds: number[];
@@ -49,6 +50,11 @@ interface IInviteUserResponse {
   id: number;
 }
 
+interface IGetUsersResponse {
+  status: Status;
+  data: IUser[];
+}
+
 export {
   type IUser,
   type ILoginResponse,
@@ -56,4 +62,6 @@ export {
   type IInviteUserRequest,
   type IInviteUserResponse,
   type ILogoutResponse,
+  type IGetUsersResponse,
+  UserStatus,
 };

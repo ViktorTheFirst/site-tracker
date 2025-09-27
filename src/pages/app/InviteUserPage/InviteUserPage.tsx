@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { ArrowLeft, Loader2, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -29,6 +29,8 @@ const InviteUserPage = () => {
       email: userEmail,
       allowedSiteIds: selectedSites,
     });
+
+    console.log('invitationRes', invitationRes);
 
     if (invitationRes.status === Status.SUCCESS) {
       toast.success('Invite sent successfully!');
@@ -84,7 +86,8 @@ const InviteUserPage = () => {
                 disabled={isAddUserBtnDisabled}
               >
                 <Plus className='mr-2 h-4 w-4' />
-                Add user
+                {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                {isLoading ? 'Adding user...' : 'Add user'}
               </Button>
             </span>
           </TooltipTrigger>

@@ -19,7 +19,7 @@ import AppLayout from './layouts/AppLayout';
 import PrivateRoute from './guards/PrivateRoute';
 import AddSitePage from './pages/app/AddSite';
 import EditSitePage from './pages/app/EditSite';
-import AllUsersPage from './pages/app/UsersPage';
+import AllUsersPage from './pages/app/UsersPage/UsersPage';
 import InviteUserPage from './pages/app/InviteUserPage/InviteUserPage';
 import LogsPage from './pages/app/LogsPage';
 import { Toaster } from './components/ui/sonner';

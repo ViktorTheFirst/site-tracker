@@ -57,7 +57,7 @@ const columns: ColumnDef<
           to={getLinkAddress(row.original.name)}
           target='_blank'
           rel='noopener noreferrer'
-          className='cursor-pointer hover:bg-transparent hover:text-inherit'
+          className='cursor-pointer hover:bg-transparent hover:text-inherit flex'
         >
           {getSlimName(row.original.name)}
         </Link>

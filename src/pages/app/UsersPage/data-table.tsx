@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Search } from 'lucide-react';
 import {
   type ColumnDef,
   flexRender,
@@ -18,35 +20,21 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onSiteSelection: (state: any) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  onSiteSelection,
 }: DataTableProps<TData, TValue>) {
+  const navigate = useNavigate();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [rowSelection, setRowSelection] = useState({});
-
-  const handleSelection = (updater: any) => {
-    const newSelection =
-      typeof updater === 'function' ? updater(rowSelection) : updater;
-
-    setRowSelection(newSelection);
-
-    const selectedRows = table
-      .getCoreRowModel()
-      .rows.filter((row) => newSelection[row.id]);
-
-    const selectedIds = selectedRows.map((row) => (row.original as any).id);
-    onSiteSelection(selectedIds);
-  };
 
   const table = useReactTable({
     data,
@@ -56,16 +44,42 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    onRowSelectionChange: handleSelection,
+
     state: {
       sorting,
       columnFilters,
-      rowSelection,
     },
   });
 
   return (
     <>
+      <div className='flex items-center justify-between mb-6'>
+        <div className='relative w-full max-w-xs'>
+          <Search
+            className='absolute left-3 top-4 -translate-y-1/2 text-gray-400'
+            size={16}
+          />
+          <Input
+            id='search user name'
+            placeholder='Search users...'
+            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+            onChange={(event) =>
+              table.getColumn('name')?.setFilterValue(event.target.value)
+            }
+            className='max-w-xs pl-10'
+          />
+        </div>
+        <h2 className='text-2xl font-bold tracking-tight'>Users management</h2>
+        <div className='flex gap-2'>
+          <Button
+            variant='default'
+            className='flex items-center gap-1'
+            onClick={() => navigate('/app/invite-user')}
+          >
+            <Plus className='w-4 h-4' /> Invite user
+          </Button>
+        </div>
+      </div>
       <div className='overflow-hidden rounded-md border'>
         <Table>
           <TableHeader>
@@ -125,7 +139,7 @@ export function DataTable<TData, TValue>({
       </div>
       <div className='text-muted-foreground flex-1 text-sm ml-2 mt-2'>
         {table.getFilteredSelectedRowModel().rows.length} of{' '}
-        {table.getFilteredRowModel().rows.length} site(s) selected.
+        {table.getFilteredRowModel().rows.length} users(s) selected.
       </div>
     </>
   );

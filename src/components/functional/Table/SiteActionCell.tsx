@@ -25,7 +25,7 @@ import { useDeleteSite } from '@/store/siteSlice';
 import { Button } from '@/components/ui/button';
 import { getLinkAddress } from '@/utils/helpers';
 
-const ActionsCell = ({ site }: { site: ISiteRecord }) => {
+const SiteActionsCell = ({ site }: { site: ISiteRecord }) => {
   const navigate = useNavigate();
   const { mutateAsync: deleteSite, isPending } = useDeleteSite();
 
@@ -102,4 +102,4 @@ const ActionsCell = ({ site }: { site: ISiteRecord }) => {
   );
 };
 
-export default ActionsCell;
+export default SiteActionsCell;
