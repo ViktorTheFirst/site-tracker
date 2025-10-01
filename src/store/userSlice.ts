@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { IUser } from '@/interfaces/user';
-import { useQuery } from '@tanstack/react-query';
-import { getUsersAPI } from '@/api/user';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { editUserAPI, getUsersAPI } from '@/api/user';
 
 interface UserState {
   user: IUser | null;
@@ -50,6 +50,21 @@ export const useGetAllUsers = () => {
     queryFn: getUsersAPI,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
+  });
+};
+
+export const useUpdateUser = () => {
+  return useMutation({
+    mutationFn: editUserAPI,
+    /* onSuccess: ({ id }) => {
+      queryClient.invalidateQueries({ queryKey: ['sites'] });
+      queryClient.invalidateQueries({ queryKey: ['site', id] });
+    }, */
+    onError: (error) => {
+      console.error('Error updating user:', error);
+      // Optional: Show error toast
+      // toast.error('Failed to update site');
+    },
   });
 };
 

@@ -1,6 +1,12 @@
 import axios, { AxiosError } from 'axios';
 
-import type { ILoginResponse, ILogoutResponse, IUser } from '@/interfaces/user';
+import type {
+  ILoginResponse,
+  ILogoutResponse,
+  IUser,
+  IVerifyTokenRequest,
+  IVerifyTokenResponse,
+} from '@/interfaces/user';
 import { getBaseUrl } from '@/utils/helpers';
 
 const baseUrl = getBaseUrl();
@@ -44,4 +50,28 @@ const logoutAPI = async (): Promise<ILogoutResponse> => {
   }
 };
 
-export { loginAPI, logoutAPI };
+const verifyTokenAPI = async (
+  data: IVerifyTokenRequest
+): Promise<IVerifyTokenResponse> => {
+  try {
+    const result = await axios<
+      IVerifyTokenRequest,
+      { data: IVerifyTokenResponse }
+    >({
+      method: 'post',
+      data,
+      url: `${baseUrl}/api/v1/auth/verify-token`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+
+    return result.data;
+  } catch (err: any) {
+    console.warn('Token verification api failed on FE ' + err);
+    throw err as AxiosError;
+  }
+};
+
+export { loginAPI, logoutAPI, verifyTokenAPI };

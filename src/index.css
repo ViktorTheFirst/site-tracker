@@ -141,7 +141,7 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    caret-color: transparent;
+    /* caret-color: transparent; */
   }
   body {
     @apply bg-background text-foreground;

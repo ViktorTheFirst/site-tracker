@@ -2,9 +2,11 @@ import axios, { AxiosError } from 'axios';
 
 import { getBaseUrl } from '@/utils/helpers';
 import type {
+  IEditUserRequest,
   IGetUsersResponse,
   IInviteUserRequest,
   IInviteUserResponse,
+  ILogoutResponse,
 } from '@/interfaces/user';
 
 const baseUrl = getBaseUrl();
@@ -61,4 +63,25 @@ const getUsersAPI = async (): Promise<IGetUsersResponse> => {
   }
 };
 
-export { inviteUserAPI, getUsersAPI };
+const editUserAPI = async (
+  userData: IEditUserRequest
+): Promise<ILogoutResponse> => {
+  try {
+    const result = await axios<IEditUserRequest, { data: ILogoutResponse }>({
+      method: 'post',
+      url: `${baseUrl}/api/v1/user/edit-user`,
+      data: userData,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+
+    return result.data;
+  } catch (err: any) {
+    console.warn('Editting user api failed on FE ' + err);
+    throw err as AxiosError;
+  }
+};
+
+export { inviteUserAPI, getUsersAPI, editUserAPI };

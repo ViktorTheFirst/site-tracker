@@ -4,7 +4,6 @@ import { ArrowLeft, Loader2, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DataTable } from './data-table';
 import columns from './columns';
@@ -16,34 +15,44 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import MultiEmailInput from '@/components/functional/MultipleEmailInput';
 
 const InviteUserPage = () => {
   const navigate = useNavigate();
-  const [userEmail, setUserEmail] = useState('');
+  const [emails, setEmails] = useState<string[]>([]);
+  const [error, setError] = useState<string>('');
   const [selectedSites, setSelectedSites] = useState([]);
 
   const { data: sites, isLoading, isError } = useGetAllSites();
 
   const handleAddUser = async () => {
+    setError('');
+    if (!emails.length) {
+      setError('Please enter at least one email.');
+      return;
+    }
+
     const invitationRes = await inviteUserAPI({
-      email: userEmail,
+      emails,
       allowedSiteIds: selectedSites,
     });
 
-    console.log('invitationRes', invitationRes);
-
     if (invitationRes.status === Status.SUCCESS) {
       toast.success('Invite sent successfully!');
+      setEmails([]);
       navigate('/app/users');
     }
 
-    invitationRes.status === Status.FAIL &&
-      toast.error(invitationRes.message || 'Invitation failed');
+    if (invitationRes.status === Status.FAIL) {
+      const error = invitationRes.message;
+      toast.error(error || 'Invitation failed');
+      setError(error);
+    }
   };
 
   const isAddUserBtnDisabled = useMemo(() => {
-    return userEmail.length < 6 || !selectedSites.length;
-  }, [userEmail, selectedSites]);
+    return !emails.length || !selectedSites.length;
+  }, [emails, selectedSites]);
 
   return (
     <div className='relative flex flex-col items-center justify-center h-full px-4 bg-background'>
@@ -59,20 +68,12 @@ const InviteUserPage = () => {
       </Button>
       <h2 className='text-2xl font-bold tracking-tight'>Invite user</h2>
       {/* ---------------------ADD USER INPUT---------------------- */}
-      <div className='container mx-auto py-2 mt-10 flex flex-row justify-between'>
-        <Label className='w-lg' htmlFor='user-email'>
-          Enter email to grant that user access to sites bellow
-        </Label>
-        <Input
-          id='user-email'
-          name='user-email'
-          type='email'
-          placeholder={userEmail.length === 0 ? 'Enter email' : ''}
-          value={userEmail}
-          onChange={(e) => setUserEmail(e.target.value)}
-          className='w-lg'
-          minLength={5}
-          required
+      <div className='container mx-auto py-2 mt-10 flex flex-row justify-between items-center'>
+        <MultiEmailInput
+          emails={emails}
+          setEmails={setEmails}
+          setError={setError}
+          disabled={isLoading}
         />
 
         <Tooltip>
@@ -92,9 +93,7 @@ const InviteUserPage = () => {
             </span>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{`${
-              userEmail.length < 6 ? 'User email must be provided.' : ''
-            } ${
+            <p>{`${!emails.length ? 'User email must be provided.' : ''} ${
               !selectedSites.length
                 ? 'Access to at least 1 site must be granted.'
                 : ''

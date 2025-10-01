@@ -40,7 +40,7 @@ interface ILogoutResponse {
 }
 
 interface IInviteUserRequest {
-  email: string;
+  emails: string[];
   allowedSiteIds: string[];
 }
 
@@ -55,6 +55,25 @@ interface IGetUsersResponse {
   data: IUser[];
 }
 
+interface IVerifyTokenResponse {
+  status: Status;
+  email: string;
+  role: Role;
+  exp: number;
+  iat: number;
+}
+
+interface IVerifyTokenRequest {
+  token: string;
+}
+
+interface IEditUserRequest {
+  name: string;
+  password: string;
+  firstTimeSetup: boolean;
+  email: string;
+}
+
 export {
   type IUser,
   type ILoginResponse,
@@ -64,4 +83,7 @@ export {
   type ILogoutResponse,
   type IGetUsersResponse,
   UserStatus,
+  type IVerifyTokenRequest,
+  type IVerifyTokenResponse,
+  type IEditUserRequest,
 };

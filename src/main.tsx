@@ -25,6 +25,7 @@ import LogsPage from './pages/app/LogsPage';
 import { Toaster } from './components/ui/sonner';
 import GlobalLoader from './components/functional/GlobalLoader';
 import AuthLayout from './layouts/AuthLayout';
+import FirstTimeSetupPage from './pages/auth/FirstTimeSetupPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,10 @@ const router = createBrowserRouter(
       <Route element={<AuthLayout />}>
         <Route element={<PublicRoute />}>
           <Route path='/auth/login' element={<LoginPage />} />
+          <Route
+            path='/auth/first-time-setup'
+            element={<FirstTimeSetupPage />}
+          />
         </Route>
       </Route>
 

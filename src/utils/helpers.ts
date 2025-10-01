@@ -29,4 +29,8 @@ const getSlimName = (name: string) => {
   return noProtocol.endsWith('/') ? noProtocol.slice(0, -1) : noProtocol; // example.net/ ---> example.net
 };
 
-export { getBaseUrl, getLinkAddress, getSlimName };
+const isValidEmail = (email: string) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+export { getBaseUrl, getLinkAddress, getSlimName, isValidEmail };
