@@ -26,6 +26,7 @@ import { Toaster } from './components/ui/sonner';
 import GlobalLoader from './components/functional/GlobalLoader';
 import AuthLayout from './layouts/AuthLayout';
 import FirstTimeSetupPage from './pages/auth/FirstTimeSetupPage';
+import { ThemeProvider } from './components/ui/theme-provider';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -79,14 +80,16 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<GlobalLoader />}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools
-          initialIsOpen={false}
-          buttonPosition='bottom-right'
-        />
-        <Toaster richColors closeButton />
-      </Suspense>
+      <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
+        <Suspense fallback={<GlobalLoader />}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools
+            initialIsOpen={false}
+            buttonPosition='bottom-right'
+          />
+          <Toaster richColors closeButton />
+        </Suspense>
+      </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>
 );

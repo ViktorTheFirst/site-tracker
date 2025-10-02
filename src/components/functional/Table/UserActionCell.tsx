@@ -1,5 +1,7 @@
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MoreHorizontal } from 'lucide-react';
+import { toast } from 'sonner';
 
 import {
   DropdownMenu,
@@ -22,17 +24,55 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Role, type IUser } from '@/interfaces/user';
+import { DataTable } from '@/pages/app/UsersPage/PermissionsTable/permissions-data-table';
+import columns from '@/pages/app/UsersPage/PermissionsTable/permissions-columns';
+import { useGetAllSites } from '@/store/siteSlice';
+import { areArraysDifferent } from '@/utils/helpers';
+import { useUpdateUser } from '@/store/userSlice';
+import { Status } from '@/interfaces/general';
 
-const SiteActionsCell = ({ user }: { user: IUser }) => {
+const UserActionsCell = ({ user }: { user: IUser }) => {
+  const { data: sites, isLoading, isError, error } = useGetAllSites();
+  const { mutateAsync: editUser, isPending } = useUpdateUser();
+  const [currentSelected, setCurrentSelected] = useState(user.allowedSiteIds);
   const navigate = useNavigate();
   //const { mutateAsync: deleteSite, isPending } = useDeleteSite();
 
-  const handleDelete = async () => {
-    try {
-      //await deleteSite(Number(site.id));
-    } catch (err) {
-      console.error('Failed to delete:', err);
-    }
+  const canUpdate = useMemo(() => {
+    return (
+      areArraysDifferent(user?.allowedSiteIds, currentSelected) &&
+      !!currentSelected?.length
+    );
+  }, [user.allowedSiteIds, currentSelected]);
+
+  const toggleActivity = async () => {
+    const permissionsUpdateRes = await editUser({
+      activity: !user?.isDisabled,
+      email: user.email,
+      firstTimeSetup: false,
+    });
+
+    permissionsUpdateRes.status === Status.SUCCESS &&
+      toast.success('Permissions set successfully!');
+    permissionsUpdateRes.status === Status.FAIL &&
+      toast.warning('Permissions update failed!');
+  };
+
+  const handlePermissionsChange = (selected: number[]) => {
+    setCurrentSelected(selected);
+  };
+
+  const handleUpdate = async () => {
+    const permissionsUpdateRes = await editUser({
+      allowedSiteIds: currentSelected,
+      email: user.email,
+      firstTimeSetup: false,
+    });
+
+    permissionsUpdateRes.status === Status.SUCCESS &&
+      toast.success('Permissions set successfully!');
+    permissionsUpdateRes.status === Status.FAIL &&
+      toast.warning('Permissions update failed!');
   };
 
   return (
@@ -72,35 +112,43 @@ const SiteActionsCell = ({ user }: { user: IUser }) => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction type='button' onClick={handleDelete}>
+                <AlertDialogAction type='button' onClick={toggleActivity}>
                   {user.isDisabled ? 'Enable' : 'Disable'}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
 
-          {/* ---------------LIST OF ACCESS SITES DIALOG---------------- */}
+          {/* ---------------SITES PERMISSIONS DIALOG---------------- */}
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <DropdownMenuItem
                 disabled={user.role !== Role.USER}
                 onSelect={(e) => e.preventDefault()}
               >
-                {'See list of access'}
+                {'Permissions'}
               </DropdownMenuItem>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>{`${user.name} ${user.email} has access to those sites`}</AlertDialogTitle>
+                <AlertDialogTitle>{`${user.name} ${
+                  !user.name ? user.email : ''
+                } has access to those sites`}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  {(user?.allowedSiteIds || []).map((item: number) => {
-                    return <div>{item}</div>;
-                  })}
+                  <DataTable
+                    columns={columns}
+                    data={sites?.data || []}
+                    onSiteSelection={handlePermissionsChange}
+                    existingAccess={user.allowedSiteIds}
+                  />
                 </AlertDialogDescription>
               </AlertDialogHeader>
 
               <AlertDialogFooter>
                 <AlertDialogCancel>Close</AlertDialogCancel>
+                <AlertDialogAction onClick={handleUpdate} disabled={!canUpdate}>
+                  Update
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -110,4 +158,4 @@ const SiteActionsCell = ({ user }: { user: IUser }) => {
   );
 };
 
-export default SiteActionsCell;
+export default UserActionsCell;

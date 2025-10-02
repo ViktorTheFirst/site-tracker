@@ -5,8 +5,8 @@ import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { DataTable } from './data-table';
-import columns from './columns';
+import { DataTable } from './invite-user-data-table';
+import columns from './invite-user-columns';
 import { useGetAllSites } from '@/store/siteSlice';
 import { inviteUserAPI } from '@/api/user';
 import { Status } from '@/interfaces/general';

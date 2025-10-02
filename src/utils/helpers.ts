@@ -33,4 +33,20 @@ const isValidEmail = (email: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 };
 
-export { getBaseUrl, getLinkAddress, getSlimName, isValidEmail };
+const areArraysDifferent = (arr1: number[], arr2: number[]): boolean => {
+  if (!arr1 || !arr2) return true;
+  if (!Array.isArray(arr1) || !Array.isArray(arr2)) return true;
+
+  return (
+    JSON.stringify([...arr1].sort((a, b) => a - b)) !==
+    JSON.stringify([...arr2].sort((a, b) => a - b))
+  );
+};
+
+export {
+  getBaseUrl,
+  getLinkAddress,
+  getSlimName,
+  isValidEmail,
+  areArraysDifferent,
+};

@@ -56,7 +56,7 @@ export function DataTable<TData, TValue>({
       <div className='flex items-center justify-between mb-6'>
         <div className='relative w-full max-w-xs'>
           <Search
-            className='absolute left-3 top-4 -translate-y-1/2 text-gray-400'
+            className='absolute left-3 top-4 -translate-y-1/2 text-gray-400 dark:text-gray-700'
             size={16}
           />
           <Input
@@ -90,7 +90,7 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       colSpan={header.colSpan}
-                      className='bg-gray-300 text-center font-semibold'
+                      className='bg-gray-300 dark:bg-gray-700 text-center font-semibold'
                     >
                       {header.isPlaceholder
                         ? null

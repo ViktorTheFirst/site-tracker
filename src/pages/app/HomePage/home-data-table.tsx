@@ -56,7 +56,7 @@ export function DataTable<TData, TValue>({
       <div className='flex items-center justify-between mb-6'>
         <div className='relative w-full max-w-xs'>
           <Search
-            className='absolute left-3 top-4 -translate-y-1/2 text-gray-400'
+            className='absolute left-3 top-4 -translate-y-1/2 text-gray-400 dark:text-gray-500'
             size={16}
           />
           <Input
@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
 
-      <div className='overflow-hidden rounded-md border'>
+      <div className='overflow-hidden rounded-md border caret-transparent'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -99,16 +99,19 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       colSpan={header.colSpan}
-                      className={clsx('bg-gray-300 text-center font-semibold', {
-                        'bg-blue-200 text-center font-semibold':
-                          isHostingHeader,
-                        'bg-green-200  text-center font-semibold':
-                          isDomainHeader,
-                        'bg-blue-100 text-blue-800 text-center':
-                          isHostingSubHeader,
-                        'bg-green-100 text-green-800 text-center':
-                          isDomainSubHeader,
-                      })}
+                      className={clsx(
+                        'bg-gray-300 dark:bg-gray-700 text-center font-semibold',
+                        {
+                          'bg-blue-200 dark:bg-blue-900 text-center font-semibold':
+                            isHostingHeader,
+                          'bg-green-200 dark:bg-green-900  text-center font-semibold':
+                            isDomainHeader,
+                          'bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-200 text-center':
+                            isHostingSubHeader,
+                          'bg-green-100 dark:bg-green-950 text-green-800 dark:text-green-200 text-center':
+                            isDomainSubHeader,
+                        }
+                      )}
                     >
                       {header.isPlaceholder
                         ? null
@@ -138,8 +141,10 @@ export function DataTable<TData, TValue>({
                       <TableCell
                         key={cell.id}
                         className={clsx({
-                          'bg-blue-50 text-blue-900': isHostingCell,
-                          'bg-green-50 text-green-900': isDomainCell,
+                          'bg-blue-50 dark:bg-blue-950/30 text-blue-900 dark:text-blue-100':
+                            isHostingCell,
+                          'bg-green-50 dark:bg-green-950/30 text-green-900 dark:text-green-100':
+                            isDomainCell,
                         })}
                       >
                         {flexRender(

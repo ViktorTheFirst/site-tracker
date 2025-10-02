@@ -68,10 +68,12 @@ interface IVerifyTokenRequest {
 }
 
 interface IEditUserRequest {
-  name: string;
-  password: string;
+  name?: string;
   firstTimeSetup: boolean;
   email: string;
+  password?: string;
+  allowedSiteIds?: number[];
+  activity?: boolean;
 }
 
 export {

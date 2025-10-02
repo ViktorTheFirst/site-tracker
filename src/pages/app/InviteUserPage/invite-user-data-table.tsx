@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       colSpan={header.colSpan}
-                      className='bg-gray-300 text-center font-semibold'
+                      className='bg-gray-300 dark:bg-gray-700 text-center font-semibold'
                     >
                       {header.isPlaceholder
                         ? null

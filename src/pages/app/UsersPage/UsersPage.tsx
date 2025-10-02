@@ -1,11 +1,9 @@
 import { useGetAllUsers } from '@/store/userSlice';
-import { DataTable } from './data-table';
-import columns from './columns';
+import { DataTable } from './UsersTable/users-data-table';
+import columns from './UsersTable/users-columns';
 
 const AllUsersPage = () => {
   const { data: users, isLoading, isError } = useGetAllUsers();
-
-  console.log('users in users page', users);
 
   return (
     <div className='container mx-auto py-2'>
