@@ -4,7 +4,6 @@ import { ArrowLeft, Loader2, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { DataTable } from './invite-user-data-table';
 import columns from './invite-user-columns';
 import { useGetAllSites } from '@/store/siteSlice';

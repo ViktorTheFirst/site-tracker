@@ -41,7 +41,7 @@ const MultiEmailInput = ({
     }
     setEmails([...emails, email]);
     setInput('');
-    setError(''); // Clear error on success
+    setError('');
   };
 
   const removeEmail = (remove: string) =>

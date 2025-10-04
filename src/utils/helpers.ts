@@ -1,17 +1,19 @@
 import { Environment } from '@/interfaces/general';
 
 const getBaseUrl = (): string => {
-  const env = process.env.NODE_ENV;
+  const env = import.meta.env.MODE;
+
+  console.log('env', env);
 
   if (env === Environment.DEV) {
     return 'http://localhost:5001';
   }
 
-  if (env === Environment.STAGING) {
-    return 'STAGING URL HERE';
+  if (env === Environment.PROD) {
+    return 'https://site-tracker-be.viktor-indie.com';
   }
 
-  return Environment.PROD;
+  return 'http://localhost:5001';
 };
 
 const getLinkAddress = (name: string) => {

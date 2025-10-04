@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { MoreHorizontal } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -35,8 +34,6 @@ const UserActionsCell = ({ user }: { user: IUser }) => {
   const { data: sites, isLoading, isError, error } = useGetAllSites();
   const { mutateAsync: editUser, isPending } = useUpdateUser();
   const [currentSelected, setCurrentSelected] = useState(user.allowedSiteIds);
-  const navigate = useNavigate();
-  //const { mutateAsync: deleteSite, isPending } = useDeleteSite();
 
   const canUpdate = useMemo(() => {
     return (
