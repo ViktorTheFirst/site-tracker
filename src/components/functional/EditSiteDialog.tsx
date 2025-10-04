@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import SiteForm, { addFormSchema } from './SiteForm';
+import SiteForm, { addFormSchema } from '@/components/functional/SiteForm';
 import type { ISiteRecord } from '@/interfaces/site';
 
 interface EditDialogProps {
