@@ -5,7 +5,7 @@ import type { IUser } from '@/interfaces/user';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { editUserAPI, getUsersAPI } from '@/api/user';
 
-interface UserState {
+export interface UserState {
   user: IUser | null;
   users: IUser[] | null;
   setUser: (user: IUser) => void;

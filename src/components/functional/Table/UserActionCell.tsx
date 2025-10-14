@@ -27,13 +27,21 @@ import { DataTable } from '@/pages/app/UsersPage/PermissionsTable/permissions-da
 import columns from '@/pages/app/UsersPage/PermissionsTable/permissions-columns';
 import { useGetAllSites } from '@/store/siteSlice';
 import { areArraysDifferent } from '@/utils/helpers';
-import { useUpdateUser } from '@/store/userSlice';
+import useUserStore, { useUpdateUser, type UserState } from '@/store/userSlice';
 import { Status } from '@/interfaces/general';
 
 const UserActionsCell = ({ user }: { user: IUser }) => {
-  const { data: sites, isLoading, isError, error } = useGetAllSites();
-  const { mutateAsync: editUser, isPending } = useUpdateUser();
   const [currentSelected, setCurrentSelected] = useState(user.allowedSiteIds);
+  const [isPermissionsOpen, setIsPermissionsOpen] = useState(false);
+
+  const currentUser = useUserStore((state: UserState) => state.user);
+  const {
+    data: sites,
+    isLoading,
+    isError,
+    error,
+  } = useGetAllSites(isPermissionsOpen);
+  const { mutateAsync: editUser, isPending } = useUpdateUser();
 
   const canUpdate = useMemo(() => {
     return (
@@ -90,7 +98,9 @@ const UserActionsCell = ({ user }: { user: IUser }) => {
             <AlertDialogTrigger asChild>
               <DropdownMenuItem
                 onSelect={(e) => e.preventDefault()}
-                disabled={user.role !== Role.USER}
+                disabled={
+                  user.role !== Role.USER || currentUser?.role === Role.USER
+                }
                 className={`${
                   user.isDisabled ? 'text-green-500' : 'text-red-500'
                 }`}
@@ -117,10 +127,15 @@ const UserActionsCell = ({ user }: { user: IUser }) => {
           </AlertDialog>
 
           {/* ---------------SITES PERMISSIONS DIALOG---------------- */}
-          <AlertDialog>
+          <AlertDialog
+            open={isPermissionsOpen}
+            onOpenChange={setIsPermissionsOpen}
+          >
             <AlertDialogTrigger asChild>
               <DropdownMenuItem
-                disabled={user.role !== Role.USER}
+                disabled={
+                  user.role !== Role.USER || currentUser?.role === Role.USER
+                }
                 onSelect={(e) => e.preventDefault()}
               >
                 {'Permissions'}
@@ -132,12 +147,18 @@ const UserActionsCell = ({ user }: { user: IUser }) => {
                   !user.name ? user.email : ''
                 } has access to those sites`}</AlertDialogTitle>
                 <AlertDialogDescription>
-                  <DataTable
-                    columns={columns}
-                    data={sites?.data || []}
-                    onSiteSelection={handlePermissionsChange}
-                    existingAccess={user.allowedSiteIds}
-                  />
+                  {isLoading ? (
+                    <div>Loading sites...</div>
+                  ) : isError ? (
+                    <div>Error loading sites: {error?.message}</div>
+                  ) : (
+                    <DataTable
+                      columns={columns}
+                      data={sites?.data || []}
+                      onSiteSelection={handlePermissionsChange}
+                      existingAccess={user.allowedSiteIds}
+                    />
+                  )}
                 </AlertDialogDescription>
               </AlertDialogHeader>
 

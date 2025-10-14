@@ -66,10 +66,11 @@ export const useUpdateSite = () => {
   });
 };
 
-export const useGetAllSites = () => {
+export const useGetAllSites = (enabled?: boolean) => {
   return useQuery({
     queryKey: ['sites'],
     queryFn: getAllSitesAPI,
+    enabled,
     staleTime: 15 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
   });

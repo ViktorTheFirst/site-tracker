@@ -88,10 +88,7 @@ const AppSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem key='users-menu-item'>
                 <SidebarMenuButton asChild>
-                  <Link
-                    to='/app/users'
-                    aria-disabled={user?.role === Role.USER}
-                  >
+                  <Link to='/app/users'>
                     <Users className='mr-2 h-4 w-4' />
                     <span>Users</span>
                   </Link>
