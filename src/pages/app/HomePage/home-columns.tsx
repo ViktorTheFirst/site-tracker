@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowUpDown } from 'lucide-react';
 import { type ColumnDef } from '@tanstack/react-table';
 
-import { Button } from '@/components/ui/button';
+import { Button, Badge } from '@/components/ui';
 
 import {
   Tooltip,
@@ -22,14 +22,16 @@ const columns: ColumnDef<ISiteRecord>[] = [
     header: 'Name',
     cell: ({ row }) => {
       return (
-        <Link
-          to={getLinkAddress(row.original.name)}
-          target='_blank'
-          rel='noopener noreferrer'
-          className='cursor-pointer hover:bg-transparent hover:text-inherit'
-        >
-          {getSlimName(row.original.name)}
-        </Link>
+        <Badge className='p-1.5' variant='outline' asChild>
+          <Link
+            to={getLinkAddress(row.original.name)}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='cursor-pointer hover:bg-transparent hover:text-inherit'
+          >
+            {getSlimName(row.original.name)}
+          </Link>
+        </Badge>
       );
     },
   },

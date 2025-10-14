@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { ArrowLeft } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,10 +19,13 @@ const EditSitePage = () => {
   const handleSubmit = async (values: z.infer<typeof addFormSchema>) => {
     try {
       const editResult = await editSite(values);
-      editResult.status === Status.SUCCESS && navigate('/app/home');
+      if (editResult.status === Status.SUCCESS) {
+        toast.success('Site editing succeed!');
+        navigate('/app/home');
+      }
     } catch (error) {
       console.error('Failed to edit site:', error);
-      // Optionally show a toast notification here
+      toast.error('Editting site failed!');
     }
   };
 

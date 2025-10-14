@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { MoreHorizontal } from 'lucide-react';
+import { toast } from 'sonner';
 
 import {
   DropdownMenu,
@@ -32,8 +33,10 @@ const SiteActionsCell = ({ site }: { site: ISiteRecord }) => {
   const handleDelete = async () => {
     try {
       await deleteSite(Number(site.id));
+      toast.success('Site was deleted!');
     } catch (err) {
       console.error('Failed to delete:', err);
+      toast.error('Deletion failed.');
     }
   };
 

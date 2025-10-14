@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { ArrowLeft } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,10 +17,13 @@ const AddSitePage = () => {
   const handleSubmit = async (values: z.infer<typeof addFormSchema>) => {
     try {
       const addResult = await addSite(values); // this updates the query cache automatically
-      addResult.status === Status.SUCCESS && navigate('/app/home');
+      if (addResult.status === Status.SUCCESS) {
+        toast.success('Site added successfully!');
+        navigate('/app/home');
+      }
     } catch (error) {
       console.error('Failed to add site:', error);
-      // Optionally show a toast notification here
+      toast.error('Adding site failed!');
     }
   };
 

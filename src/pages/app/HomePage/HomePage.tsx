@@ -9,7 +9,8 @@ import useUserStore from '@/store/userSlice';
 // TODO:
 // 1. create a checkbox in SiteForm "domain and hosting in same place"
 // by checking it domain gets disabled with same values as hosting already filled
-// 3. add toasts for site adding, editing and deletion
+// 2. when user adding a site it should appear in his allowed sites list
+// 3. if site is being deleted, its id should be removed from allowedSitesIds of each user?
 
 const HomePage = () => {
   const clearGlobalUser = useUserStore((state) => state.clearUser);
