@@ -6,9 +6,10 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import SiteForm, { addFormSchema } from '@/components/functional/SiteForm';
 import { Status } from '@/interfaces/general';
 import { useAddSite } from '@/store/siteSlice';
+import type { addFormSchema } from '@/components/functional/SiteForm';
+import SiteForm from '@/components/functional/SiteForm';
 
 const AddSitePage = () => {
   const navigate = useNavigate();
